@@ -67,6 +67,8 @@ private:
 
   void ExtractCollections(EVENT::LCEvent *pLCEvent);
 
+  void FindEnu(EVENT::LCEvent *pLCEvent);
+
   /** Called after data processing for clean up.
    */
   virtual void end() ;
@@ -83,7 +85,18 @@ private:
 	int			m_nRunSum{};
 	int			m_nEvtSum{};
 
+	int				m_nSLDecayTotal;                           ///<
+    int				m_nSLDecayBHad;                           ///<
+    int				m_nSLDecayCHad;                           ///<
+	float				m_mcEnergyENu;                           ///<
+    float				m_mcEnergyELep;                           ///<
+
 	std::string		m_mcParticleCollection{};
+
+//	TFile              *m_pTFile{};                             ///<
+//    TTree              *m_pTTree{};                             ///<
+    TH1F               *m_hmcEnergyENu{};                      ///<
+	TH1F               *m_hmcEnergyELep{};                      ///<
 
 	int			m_printing;
 	std::string		m_rootFile{};                           ///<
