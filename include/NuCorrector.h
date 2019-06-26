@@ -3,7 +3,9 @@
 
 #include "EVENT/LCStrVec.h"
 #include "marlin/Processor.h"
+#include "IMPL/LCCollectionVec.h"
 #include "lcio.h"
+#include "TLorentzVector.h"
 #include <string>
 #include <vector>
 #include <math.h>
@@ -67,7 +69,8 @@ private:
 
   void ExtractCollections(EVENT::LCEvent *pLCEvent);
 
-  void FindEnu(EVENT::LCEvent *pLCEvent);
+  void FormTLV(EVENT::LCEvent *pLCEvent);
+  void CalculateNeutrinoEnergy(TLorentzVector mcHadron_tlv,TLorentzVector mcVisible_tlv,TLorentzVector mcNeutrino_tlv,TLorentzVector mcLepton_tlv);
 
   /** Called after data processing for clean up.
    */
@@ -78,32 +81,44 @@ private:
 
   /** Input collection name.
    */
-  std::string _colName{};
+	int					m_nRun{};
+	int					m_nEvt{} ;
+	int					m_nRunSum{};
+	int					m_nEvtSum{};
 
-	int			m_nRun{} ;
-	int			m_nEvt{} ;
-	int			m_nRunSum{};
-	int			m_nEvtSum{};
+	int					m_nSLDecayBHad;
+	int					m_nSLDecayCHad;
+	int					m_nSLDecayTotal;
+	float					m_recENuPlus;
+	float					m_recENuMinus;
+	float					m_recENuClose;
 
-	int				m_nSLDecayTotal;                           ///<
-    int				m_nSLDecayBHad;                           ///<
-    int				m_nSLDecayCHad;                           ///<
-	float				m_mcEnergyENu;                           ///<
-    float				m_mcEnergyELep;                           ///<
+	typedef std::vector<int>		IntVector;
+	IntVector				m_BHadronIndex;
+	IntVector				m_CHadronIndex;
+	typedef std::vector<double>		DoubleVector;
+	DoubleVector				m_mcEnergyENu;
+	DoubleVector				m_mcEnergyELep;
+	typedef std::vector<float>		FloatVector;
+	FloatVector				m_recEnergyENuPlus;
+	FloatVector				m_recEnergyENuMinus;
+	FloatVector				m_recEnergyENuClose;
+	float					m_EnergyCOM;
 
-	std::string		m_mcParticleCollection{};
+	std::string				m_mcParticleCollection{};
+	std::string				m_SLDecaysCollection{};
+	std::string				m_NuCorrCollection{};
+	LCCollectionVec				*m_col_NuCorr{};
 
-//	TFile              *m_pTFile{};                             ///<
-//    TTree              *m_pTTree{};                             ///<
-    TH1F               *m_hmcEnergyENu{};                      ///<
-	TH1F               *m_hmcEnergyELep{};                      ///<
+	TH1F					*m_hmcEnergyENu{};
+	TH1F					*m_hmcEnergyELep{};
 
-	int			m_printing;
-	std::string		m_rootFile{};                           ///<
-	int			m_lookForQuarksWithMotherZ;
+	int					m_printing;
+	std::string				m_rootFile{};
+	int					m_lookForQuarksWithMotherZ;
 
-	TFile			*m_pTFile{};                             ///<
-	TTree			*m_pTTree{};                             ///<
+	TFile					*m_pTFile{};
+	TTree					*m_pTTree{};
 
 } ;
 
