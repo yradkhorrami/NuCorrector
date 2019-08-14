@@ -287,6 +287,9 @@ void NuCorrector::CalculateNeutrinoEnergy(TLorentzVector mcHadron_tlv,TLorentzVe
 		double _A = visible_p_parallel.Mag() * (pow(Hadron_mass,2) - pow(visible_mass,2) - 2 * visible_p_normal.Mag2());
 		double _B = visible_E * std::sqrt(pow(pow(Hadron_mass,2) - pow(visible_mass,2),2) - 4 * pow(Hadron_mass,2) * visible_p_normal.Mag2());
 		double _C = 2 * (pow(visible_E,2) - visible_p_parallel.Mag2());
+		if (pow(pow(Hadron_mass,2) - pow(visible_mass,2),2) - 4 * pow(Hadron_mass,2) * visible_p_normal.Mag2()<0)
+			_B = 0;
+
 		TVector3 recNeutrino_p_parallel_plus(((_A + _B)/_C) * direction);
 		TVector3 recNeutrino_p_parallel_minus(((_A - _B)/_C) * direction);
 		TVector3 recNeutrino_p_normal(-1 * visible_p_normal);
